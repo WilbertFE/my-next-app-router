@@ -3,13 +3,31 @@ import { NextRequest, NextResponse } from "next/server";
 const data = [
   {
     id: 1,
-    name: "Sepatu Baru",
+    title: "Sepatu Baru",
     price: 100000,
+    image:
+      "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/6b16e736-a958-4816-89a3-542601b6616f/ja-1-ep-basketball-shoes-XncH16.png",
   },
   {
     id: 2,
-    name: "Sepatu Baru Dong",
+    title: "Sepatu Baru Dong",
     price: 1000000,
+    image:
+      "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/6b16e736-a958-4816-89a3-542601b6616f/ja-1-ep-basketball-shoes-XncH16.png",
+  },
+  {
+    id: 3,
+    title: "Sepatu Baru Dong",
+    price: 2000000,
+    image:
+      "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/6b16e736-a958-4816-89a3-542601b6616f/ja-1-ep-basketball-shoes-XncH16.png",
+  },
+  {
+    id: 4,
+    title: "Sepatu Baru Dong",
+    price: 2000000,
+    image:
+      "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/6b16e736-a958-4816-89a3-542601b6616f/ja-1-ep-basketball-shoes-XncH16.png",
   },
 ];
 
