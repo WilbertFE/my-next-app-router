@@ -1,7 +1,11 @@
 type ProductPageProps = { params: { slug: string[] } };
 
 async function getData() {
+  // const res = await fetch("https://fakestoreapi.com/products", {
+  //   cache: "no-cache",
+  // });
   const res = await fetch("http://localhost:3000/api/product", {
+    cache: "force-cache",
     next: {
       tags: ["products"],
       // revalidate: 30,
@@ -16,7 +20,6 @@ async function getData() {
 export default async function ProductPage(props: ProductPageProps) {
   const { params } = props;
   const products = await getData();
-  console.log(products);
   return (
     <div className="grid grid-cols-4 mt-5 place-items-center">
       {/* <h1>{params.slug ? "Detail Product Page" : "Product Page"}</h1> */}
