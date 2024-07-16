@@ -6,6 +6,7 @@ import "./globals.css";
 import Navbar from "./navbar";
 // import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,15 +17,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const [state, setState] = useState(0);
   const pathName = usePathname();
   return (
     <html lang="en">
       <body className={inter.className}>
-        {!disableNavbar.includes(pathName) && <Navbar />}
-        {/* <div>Layout {state}</div> */}
-        {/* <button onClick={() => setState(state + 1)}>Klik</button> */}
-        {children}
+        <SessionProvider>
+          {!disableNavbar.includes(pathName) && <Navbar />}
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );
