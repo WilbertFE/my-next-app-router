@@ -26,7 +26,7 @@ const authOptions: NextAuthOptions = {
           email: "wilbert@gmail.com",
           role: "admin",
         };
-        if (email === "wilbert@gmail.com" && password === "12345678") {
+        if (email === "wilbert@gmail.com" && password === "wilbert123") {
           return user;
         } else {
           return null;
