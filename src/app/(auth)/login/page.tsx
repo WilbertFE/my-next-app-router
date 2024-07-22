@@ -5,10 +5,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function LoginPage() {
+export default function LoginPage({ searchParams }: any) {
   const { push } = useRouter();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const callbackUrl = searchParams.callbackURL || "/";
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
@@ -19,13 +21,13 @@ export default function LoginPage() {
         redirect: false,
         email: e.target.email.value,
         password: e.target.password.value,
-        callbackUrl: "/dashboard",
+        callbackUrl,
       });
       if (!res?.error) {
         e.target.reset();
 
         setIsLoading(false);
-        push("/dashboard");
+        push(callbackUrl);
       } else {
         setIsLoading(false);
         if (res.status === 401) {
@@ -35,14 +37,6 @@ export default function LoginPage() {
     } catch (err) {
       console.log(err);
     }
-
-    // fetch("/api/auth/login", {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     email: e.currentTarget.email.value,
-    //     password: e.currentTarget.password.value,
-    //   }),
-    // });
   };
   return (
     <div className="h-screen w-100 flex justify-center items-center flex-col">

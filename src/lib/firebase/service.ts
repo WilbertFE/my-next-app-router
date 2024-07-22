@@ -7,6 +7,7 @@ import {
   query,
   where,
   addDoc,
+  updateDoc,
 } from "firebase/firestore";
 import app from "./init";
 import bcrypt from "bcrypt";
@@ -49,7 +50,7 @@ export async function register(data: {
   if (users.length > 0) {
     return { status: false, statusCode: 400, message: "Email already exists" };
   } else {
-    data.role = "admin";
+    data.role = "member";
     data.password = await bcrypt.hash(data.password, 10);
 
     try {
@@ -77,5 +78,30 @@ export async function login(data: { email: string }) {
     return user[0];
   } else {
     return null;
+  }
+}
+
+export async function loginWithGoogle(data: any) {
+  const q = query(
+    collection(firestore, "users"),
+    where("email", "==", data.email)
+  );
+
+  const snapshot = await getDocs(q);
+  const user = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
+  if (user.length > 0) {
+    data.role = data[0].role;
+    await updateDoc(doc(firestore, "users", user[0].id), data).then(() => {
+      return data;
+    });
+  } else {
+    data.role = "member";
+    await addDoc(collection(firestore, "users"), data).then(() => {
+      return data;
+    });
   }
 }

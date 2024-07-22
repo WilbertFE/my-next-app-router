@@ -6,6 +6,9 @@ import {
   NextResponse,
 } from "next/server";
 
+const onlyAdminPage = ["/dashboard"];
+const authPage = ["/login", "/register"];
+
 export default function withAuth(
   middleware: NextMiddleware,
   requireAuth: string[] = []
@@ -17,10 +20,18 @@ export default function withAuth(
         req,
         secret: process.env.NEXTAUTH_SECRET,
       });
-      if (!token) {
+      if (!token && !authPage.includes(pathName)) {
         const url = new URL("/login", req.url);
         url.searchParams.set("callbackURL", encodeURI(req.url));
         return NextResponse.redirect(url);
+      }
+      if (token) {
+        if (authPage.includes(pathName)) {
+          return NextResponse.redirect(new URL("/", req.url));
+        }
+        if (token.role !== "admin" && onlyAdminPage.includes(pathName)) {
+          return NextResponse.redirect(new URL("/", req.url));
+        }
       }
     }
     return middleware(req, next);
