@@ -43,11 +43,12 @@ export async function register(data: {
     where("email", "==", data.email)
   );
   const snapshot = await getDocs(q);
-  const users = snapshot.docs.map((doc) => ({
+  const user: any = snapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
-  if (users.length > 0) {
+  if (user.length > 0) {
+    data.role = user[0].role;
     return { status: false, statusCode: 400, message: "Email already exists" };
   } else {
     data.role = "member";
@@ -81,7 +82,7 @@ export async function login(data: { email: string }) {
   }
 }
 
-export async function loginWithGoogle(data: any) {
+export async function loginWithGoogle(data: any, callback: any) {
   const q = query(
     collection(firestore, "users"),
     where("email", "==", data.email)
@@ -96,12 +97,12 @@ export async function loginWithGoogle(data: any) {
   if (user.length > 0) {
     data.role = data[0].role;
     await updateDoc(doc(firestore, "users", user[0].id), data).then(() => {
-      return data;
+      callback({ status: true, data: data });
     });
   } else {
     data.role = "member";
     await addDoc(collection(firestore, "users"), data).then(() => {
-      return data;
+      callback({ status: true, data: data });
     });
   }
 }
