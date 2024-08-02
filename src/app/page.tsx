@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
+  ),
   title: "Home - WILBERT BERNARDI",
   description: "Aplikasi untuk belajar Next JS",
   authors: [{ name: "Wilbert Bernardi", url: "https://github.com/wilbertFE" }],

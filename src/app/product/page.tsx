@@ -6,7 +6,9 @@ type ProductPageProps = { params: { slug: string[] } };
 
 export default async function ProductPage(props: ProductPageProps) {
   const { params } = props;
-  const products = await getData("http://localhost:3000/api/product");
+  const products = await getData(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/product`
+  );
   return (
     <div className="grid grid-cols-4 mt-5 place-items-center">
       {/* <h1>{params.slug ? "Detail Product Page" : "Product Page"}</h1> */}
