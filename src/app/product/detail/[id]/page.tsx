@@ -1,11 +1,23 @@
-import { getData } from "@/services/products";
+// import { getData } from "@/services/products";
+"use client";
 
-export default async function DetailProductPage(props: any) {
+import useSWR from "swr";
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+export default function DetailProductPage(props: any) {
   const { params } = props;
-  const product = await getData(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/product?id=` + params.id
-  );
+  // const product = await getData(
+  //   `${process.env.NEXT_PUBLIC_API_URL}/api/product?id=` + params.id
+  // );
 
+  const { data } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/product?id="` + params.id,
+    fetcher
+  );
+  const product = {
+    data: data?.data,
+  };
   return (
     <div className="container mx-auto my-10">
       <div className="w-1/2 mx-auto border border-gray-700">
